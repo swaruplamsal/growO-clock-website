@@ -2,3 +2,5 @@
 node_modules/
 .next/
 .env
+# Ignore agents directory
+.github/agents/

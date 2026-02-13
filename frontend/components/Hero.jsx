@@ -20,21 +20,22 @@ export default function Hero() {
             <span className="text-accent">Secure Future.</span>
           </h1>
 
-          <p className="font-montserrat text-base sm:text-lg text-gray-200 mb-10 max-w-xl leading-relaxed">
+          <p className="font-montserrat text-base lg:text-md sm:text-lg text-gray-200 mb-10 max-w-xl leading-relaxed">
             We provide innovative financial solutions that empower individuals
             and businesses to grow with confidence.
           </p>
-
-          <div className="flex flex-wrap gap-4">
+          <br />
+          <div className="flex flex-wrap gap-12">
             <Link
-              href="/get-started"
-              className="group px-6 py-3 bg-white/10 backdrop-blur-sm border-2 border-white text-white font-montserrat font-semibold text-sm rounded-md hover:bg-white hover:text-gray-900 transition-all duration-300 shadow-lg"
+              href="/login"
+              className="inline-flex items-center justify-center w-40 py-4 bg-white/10 backdrop-blur-sm border-2 border-white text-white font-montserrat font-semibold text-sm rounded-3xl hover:bg-white hover:text-gray-900 transition-all duration-300 shadow-lg"
             >
               Get Started
             </Link>
+
             <Link
               href="/register"
-              className="px-6 py-3 bg-accent text-white font-montserrat font-semibold text-sm rounded-md hover:bg-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center justify-center w-40 py-4 bg-accent text-black font-montserrat font-semibold text-sm rounded-3xl hover:bg-cyan-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Register
             </Link>
