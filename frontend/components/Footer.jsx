@@ -134,8 +134,8 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="font-montserrat text-xs text-gray-600">
-            &copy; {new Date().getFullYear()} grO&apos;Clock. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} grow O&apos;clock Pvt. Ltd. All
+            rights reserved.
           </p>
           <div className="flex gap-6">
             <Link
