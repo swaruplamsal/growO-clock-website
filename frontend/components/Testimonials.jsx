@@ -18,7 +18,7 @@ const testimonials = [
     name: "Amit Verma",
     role: "Startup Founder",
     text: "From tax planning to growth strategy, grO'Clock has been an invaluable partner in our startup journey.",
-    rating: 5,
+    rating: 4,
   },
 ];
 

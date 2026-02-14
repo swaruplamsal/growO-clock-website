@@ -6,7 +6,7 @@ export default function Hero() {
       {/* Parallax Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('/background.png')" }}
+        style={{ backgroundImage: "url('/1.jpg')" }}
       >
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/30"></div>
