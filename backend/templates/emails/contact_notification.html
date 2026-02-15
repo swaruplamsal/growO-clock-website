@@ -1,0 +1,25 @@
+{% extends "emails/base_email.html" %} {% block title %}New Contact Message{%
+endblock %} {% block content %}
+<h2>New Contact Form Submission</h2>
+
+<p>A new message has been received through the contact form.</p>
+
+<div class="info-box">
+  <p><strong>From:</strong> {{ contact.name }}</p>
+  <p><strong>Email:</strong> {{ contact.email }}</p>
+  {% if contact.phone %}
+  <p><strong>Phone:</strong> {{ contact.phone }}</p>
+  {% endif %}
+  <p><strong>Subject:</strong> {{ contact.subject }}</p>
+  <p><strong>Date:</strong> {{ contact.created_at|date:"F j, Y g:i A" }}</p>
+</div>
+
+<h3>Message:</h3>
+<div class="info-box">
+  <p>{{ contact.message }}</p>
+</div>
+
+<a href="{{ admin_url }}" class="btn">View in Admin Panel</a>
+
+<p>Please respond to this message promptly.</p>
+{% endblock %}

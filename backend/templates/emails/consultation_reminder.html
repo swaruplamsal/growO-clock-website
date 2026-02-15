@@ -1,0 +1,49 @@
+{% extends "emails/base_email.html" %} {% block title %}Consultation Reminder{%
+endblock %} {% block content %}
+<h2>Upcoming Consultation Reminder</h2>
+
+<p>Hi {{ user.first_name|default:"there" }},</p>
+
+<p>
+  This is a friendly reminder that you have an upcoming consultation scheduled
+  with <strong>grow O'Clock</strong>.
+</p>
+
+<div class="info-box">
+  <p>
+    <strong>📅 Date:</strong> {{ consultation.scheduled_date|date:"F j, Y" }}
+  </p>
+  <p>
+    <strong>🕐 Time:</strong> {{ consultation.scheduled_date|time:"g:i A" }}
+  </p>
+  <p>
+    <strong>📋 Type:</strong> {{ consultation.get_consultation_type_display }}
+  </p>
+  {% if consultation.meeting_link %}
+  <p>
+    <strong>🔗 Meeting Link:</strong>
+    <a href="{{ consultation.meeting_link }}"
+      >{{ consultation.meeting_link }}</a
+    >
+  </p>
+  {% endif %}
+</div>
+
+<p>Please make sure to:</p>
+<ul>
+  <li>Prepare any questions or documents you'd like to discuss</li>
+  <li>Join the meeting a few minutes early</li>
+  <li>Have your financial documents handy</li>
+</ul>
+
+{% if consultation.meeting_link %}
+<a href="{{ consultation.meeting_link }}" class="btn">Join Meeting</a>
+{% endif %}
+
+<p>
+  If you need to reschedule or cancel, please do so at least 24 hours in
+  advance.
+</p>
+
+<p>Best regards,<br /><strong>The grow O'Clock Team</strong></p>
+{% endblock %}

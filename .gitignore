@@ -1,6 +1,52 @@
-.history
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Frontend
 node_modules/
 .next/
+out/
+
+# Environment variables
 .env
-# Ignore agents directory
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+.history/
+*.swp
+*.swo
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+staticfiles/
+media/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Agents directory
 .github/agents/

@@ -1,0 +1,31 @@
+{% extends "emails/base_email.html" %} {% block title %}Response to Your
+Message{% endblock %} {% block content %}
+<h2>We've Responded to Your Message</h2>
+
+<p>Hi {{ contact.name }},</p>
+
+<p>
+  Thank you for reaching out to <strong>grow O'Clock</strong>. We've reviewed
+  your message and have a response for you.
+</p>
+
+<div class="info-box">
+  <p><strong>Your Subject:</strong> {{ contact.subject }}</p>
+  <p><strong>Your Message:</strong></p>
+  <p>{{ contact.message }}</p>
+</div>
+
+<h3>Our Response:</h3>
+<div class="info-box">
+  <p>{{ contact.response }}</p>
+</div>
+
+<p>
+  If you have any further questions, feel free to reply or submit another
+  message through our contact form.
+</p>
+
+<a href="{{ frontend_url }}/contact" class="btn">Contact Us Again</a>
+
+<p>Best regards,<br /><strong>The grow O'Clock Team</strong></p>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "emails/base_email.html" %} {% block title %}Welcome to grow
+O'Clock{% endblock %} {% block content %}
+<h2>Welcome aboard, {{ user.first_name|default:"there" }}! 🎉</h2>
+
+<p>
+  Thank you for joining <strong>grow O'Clock</strong>. We're thrilled to have
+  you as part of our community of smart financial planners.
+</p>
+
+<div class="info-box">
+  <p><strong>What you can do now:</strong></p>
+  <p>✅ Create personalized financial plans</p>
+  <p>✅ Track your investment portfolio</p>
+  <p>✅ Book consultations with our advisors</p>
+  <p>✅ Access financial calculators and tools</p>
+</div>
+
+<p>
+  Get started by exploring your dashboard and setting up your financial profile.
+</p>
+
+<a href="{{ frontend_url }}/dashboard" class="btn">Go to Dashboard</a>
+
+<p>
+  If you have any questions, don't hesitate to reach out to our support team.
+</p>
+
+<p>Best regards,<br /><strong>The grow O'Clock Team</strong></p>
+{% endblock %}
