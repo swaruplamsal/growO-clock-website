@@ -53,7 +53,7 @@ class DashboardStatsView(APIView):
             ).count(),
             'total_job_applications': JobApplication.objects.count(),
             'recent_signups': User.objects.filter(
-                date_joined__gte=thirty_days_ago
+                created_at__gte=thirty_days_ago
             ).count(),
         }
 

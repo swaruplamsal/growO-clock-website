@@ -86,6 +86,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def get_full_name(self):
+        return self.full_name
+
     @property
     def first_name(self):
         return self.full_name.split(' ')[0] if self.full_name else ''

@@ -1,19 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
+
+  // Check for session expired message in URL params
+  useEffect(() => {
+    const reason = searchParams.get("reason");
+    if (reason === "expired") {
+      setError("Your session has expired. Please log in again.");
+    }
+  }, [searchParams]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Login functionality will be implemented with backend integration.");
+    setLoading(true);
+    setError("");
+    try {
+      await login(formData.email, formData.password);
+      router.push("/dashboard");
+    } catch (err) {
+      const msg =
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        err.response?.data?.non_field_errors?.[0] ||
+        "Invalid email or password. Please try again.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,6 +78,11 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg font-montserrat text-sm">
+                  {error}
+                </div>
+              )}
               <div>
                 <label className="block font-montserrat text-sm font-medium text-gray-700 mb-1">
                   Email Address
@@ -68,7 +103,7 @@ export default function LoginPage() {
                     Password
                   </label>
                   <a
-                    href="#"
+                    href="/forgot-password"
                     className="font-montserrat text-xs text-primary hover:underline"
                   >
                     Forgot password?
@@ -99,9 +134,17 @@ export default function LoginPage() {
               </div>
               <button
                 type="submit"
-                className="w-full px-8 py-3.5 bg-primary text-white font-montserrat font-semibold text-sm rounded-lg hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl"
+                disabled={loading}
+                className="w-full px-8 py-3.5 bg-primary text-white font-montserrat font-semibold text-sm rounded-lg hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign In
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Signing in...
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
 

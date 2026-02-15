@@ -13,9 +13,11 @@ from .views import (
     AdminApplicationDetailView,
 )
 
+app_name = 'careers'
+
 urlpatterns = [
     # Public
-    path('positions/', JobPositionListView.as_view(), name='career-positions'),
+    path('positions/', JobPositionListView.as_view(), name='position-list'),
     path('positions/<uuid:id>/', JobPositionDetailView.as_view(), name='career-position-detail'),
     path('apply/', JobApplicationCreateView.as_view(), name='career-apply'),
 

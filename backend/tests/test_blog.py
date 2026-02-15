@@ -58,7 +58,7 @@ class TestBlogAPI:
             category=category,
             status='DRAFT',
         )
-        url = reverse('blog:post-list')
+        url = reverse('blog:blog-post-list')
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK
         # Only published posts should be visible to public
@@ -66,6 +66,6 @@ class TestBlogAPI:
 
     def test_list_categories(self, api_client):
         Category.objects.create(name='Cat1', slug='cat1')
-        url = reverse('blog:category-list')
+        url = reverse('blog:blog-categories')
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK

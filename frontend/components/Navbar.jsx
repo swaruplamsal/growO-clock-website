@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -38,9 +39,10 @@ const navLinks = [
       { label: "Help Center", href: "/resources#help-center" },
       { label: "FAQs", href: "/resources#faqs" },
       { label: "Market Insights", href: "/resources#market-insights" },
-      { label: "Calculators", href: "/resources#calculators" },
+      { label: "Calculators", href: "/resources/calculators" },
     ],
   },
+  { label: "Blog", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -48,7 +50,10 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileDropdown, setMobileDropdown] = useState(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, isAuthenticated, logout, unreadCount } = useAuth();
 
   const handleSmoothScroll = (e, href) => {
     const [path, hash] = href.split("#");
@@ -64,6 +69,12 @@ export default function Navbar() {
       setMobileOpen(false);
       setActiveDropdown(null);
     }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setUserMenuOpen(false);
+    router.push("/");
   };
 
   return (
@@ -139,20 +150,119 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center space-x-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-montserrat font-medium text-white hover:text-primary transition-colors duration-200"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="px-7 py-3 text-sm font-montserrat font-semibold text-black bg-accent hover:bg-cyan-500 hover:text-gray-100 rounded-3xl transition-colors duration-200 shadow-md hover:shadow-lg"
-            >
-              Register
-            </Link>
+            {isAuthenticated ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-2 text-white hover:text-accent transition-colors duration-200"
+                >
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold overflow-hidden">
+                    {user?.profile?.avatar || user?.avatar ? (
+                      <img
+                        src={user?.profile?.avatar || user?.avatar}
+                        alt=""
+                        className="w-8 h-8 object-cover"
+                      />
+                    ) : (
+                      user?.full_name?.[0] ||
+                      user?.email?.[0]?.toUpperCase() ||
+                      "U"
+                    )}
+                  </div>
+                  <span className="font-montserrat text-sm font-medium max-w-[120px] truncate">
+                    {user?.full_name?.split(" ")[0] || "Account"}
+                  </span>
+                  {unreadCount > 0 && (
+                    <span className="w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center text-white font-bold">
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${userMenuOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="font-montserrat text-sm font-semibold text-gray-900 truncate">
+                        {user?.full_name}
+                      </p>
+                      <p className="font-montserrat text-xs text-gray-500 truncate">
+                        {user?.email}
+                      </p>
+                    </div>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary font-montserrat"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/dashboard/profile"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary font-montserrat"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      href="/dashboard/consultations"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary font-montserrat"
+                    >
+                      Consultations
+                    </Link>
+                    <Link
+                      href="/dashboard/notifications"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary font-montserrat"
+                    >
+                      Notifications
+                      {unreadCount > 0 && (
+                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                          {unreadCount}
+                        </span>
+                      )}
+                    </Link>
+                    <div className="border-t border-gray-100 mt-1 pt-1">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 font-montserrat"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-montserrat font-medium text-white hover:text-primary transition-colors duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-7 py-3 text-sm font-montserrat font-semibold text-black bg-accent hover:bg-cyan-500 hover:text-gray-100 rounded-3xl transition-colors duration-200 shadow-md hover:shadow-lg"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -258,20 +368,62 @@ export default function Navbar() {
             </div>
           ))}
           <div className="pt-3 border-t border-gray-100 flex flex-col space-y-2">
-            <Link
-              href="/login"
-              className="px-3 py-2 text-sm font-montserrat font-medium text-gray-700 hover:text-primary rounded-md"
-              onClick={() => setMobileOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="px-5 py-2 text-sm font-montserrat font-semibold text-white bg-accent hover:bg-cyan-500 rounded-full text-center transition-colors"
-              onClick={() => setMobileOpen(false)}
-            >
-              Register
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="px-3 py-2 text-sm font-montserrat font-medium text-primary rounded-md hover:bg-primary/5"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href="/dashboard/profile"
+                  className="px-3 py-2 text-sm font-montserrat font-medium text-gray-700 rounded-md hover:bg-gray-50"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  My Profile
+                </Link>
+                <Link
+                  href="/dashboard/notifications"
+                  className="flex items-center justify-between px-3 py-2 text-sm font-montserrat font-medium text-gray-700 rounded-md hover:bg-gray-50"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Notifications
+                  {unreadCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                      {unreadCount}
+                    </span>
+                  )}
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileOpen(false);
+                  }}
+                  className="px-3 py-2 text-sm font-montserrat font-medium text-red-600 rounded-md hover:bg-red-50 text-left"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-3 py-2 text-sm font-montserrat font-medium text-gray-700 hover:text-primary rounded-md"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-5 py-2 text-sm font-montserrat font-semibold text-white bg-accent hover:bg-cyan-500 rounded-full text-center transition-colors"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

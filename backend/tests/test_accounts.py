@@ -17,8 +17,7 @@ class TestUserRegistration:
             'email': 'newuser@example.com',
             'password': 'StrongPass123!',
             'password_confirm': 'StrongPass123!',
-            'first_name': 'New',
-            'last_name': 'User',
+            'full_name': 'New User',
         }
         response = api_client.post(url, data, format='json')
         assert response.status_code == status.HTTP_201_CREATED
@@ -30,8 +29,7 @@ class TestUserRegistration:
             'email': 'newuser@example.com',
             'password': 'StrongPass123!',
             'password_confirm': 'DifferentPass123!',
-            'first_name': 'New',
-            'last_name': 'User',
+            'full_name': 'New User',
         }
         response = api_client.post(url, data, format='json')
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -42,8 +40,7 @@ class TestUserRegistration:
             'email': user.email,
             'password': 'StrongPass123!',
             'password_confirm': 'StrongPass123!',
-            'first_name': 'Another',
-            'last_name': 'User',
+            'full_name': 'Another User',
         }
         response = api_client.post(url, data, format='json')
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -54,8 +51,7 @@ class TestUserRegistration:
             'email': 'newuser@example.com',
             'password': '123',
             'password_confirm': '123',
-            'first_name': 'New',
-            'last_name': 'User',
+            'full_name': 'New User',
         }
         response = api_client.post(url, data, format='json')
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -123,7 +119,7 @@ class TestUserProfile:
             'new_password': 'NewStrongPass456!',
             'new_password_confirm': 'NewStrongPass456!',
         }
-        response = authenticated_client.post(url, data, format='json')
+        response = authenticated_client.put(url, data, format='json')
         assert response.status_code == status.HTTP_200_OK
 
 
@@ -141,7 +137,7 @@ class TestUserModel:
         assert str(user) == user.email
 
     def test_user_full_name(self, user):
-        assert user.get_full_name() == 'Test User'
+        assert user.full_name == 'Test User'
 
     def test_superuser_creation(self, admin_user):
         assert admin_user.is_staff

@@ -20,9 +20,8 @@ def create_user(db):
         defaults = {
             'email': 'test@example.com',
             'password': 'TestPass123!',
-            'first_name': 'Test',
-            'last_name': 'User',
-            'is_email_verified': True,
+            'full_name': 'Test User',
+            'is_verified': True,
         }
         defaults.update(kwargs)
         password = defaults.pop('password')

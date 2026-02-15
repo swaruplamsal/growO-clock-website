@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { contactAPI } from "@/lib/api";
 
 const contactInfo = [
   {
@@ -95,15 +96,39 @@ export default function ContactContent() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setLoading(true);
+    setError("");
+    try {
+      await contactAPI.submit(formData);
+      setSubmitted(true);
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (err) {
+      const data = err.response?.data;
+      if (data) {
+        const messages = [];
+        for (const [, val] of Object.entries(data)) {
+          if (Array.isArray(val)) messages.push(val.join(" "));
+          else if (typeof val === "string") messages.push(val);
+        }
+        setError(
+          messages.join(" ") || "Failed to send message. Please try again.",
+        );
+      } else {
+        setError("Failed to send message. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -176,6 +201,11 @@ export default function ContactContent() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg font-montserrat text-sm">
+                      {error}
+                    </div>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block font-montserrat text-sm font-medium text-gray-700 mb-1">
@@ -256,9 +286,10 @@ export default function ContactContent() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full px-8 py-3.5 bg-primary text-white font-montserrat font-semibold text-sm rounded-lg hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl"
+                    disabled={loading}
+                    className="w-full px-8 py-3.5 bg-primary text-white font-montserrat font-semibold text-sm rounded-lg hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl disabled:opacity-50"
                   >
-                    Send Message
+                    {loading ? "Sending..." : "Send Message"}
                   </button>
                 </form>
               )}

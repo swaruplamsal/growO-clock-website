@@ -13,8 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # API v1
-    path('api/auth/', include('apps.accounts.urls.auth_urls')),
-    path('api/users/', include('apps.accounts.urls.user_urls')),
+    path('api/', include('apps.accounts.urls')),
     path('api/consultations/', include('apps.consultations.urls')),
     path('api/plans/', include('apps.financial_planning.urls')),
     path('api/investments/', include('apps.investments.urls')),

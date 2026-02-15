@@ -10,9 +10,11 @@ from .views import (
     ContactRespondView,
 )
 
+app_name = 'contact'
+
 urlpatterns = [
     path('', ContactSubmitView.as_view(), name='contact-submit'),
-    path('messages/', ContactMessageListView.as_view(), name='contact-list'),
+    path('messages/', ContactMessageListView.as_view(), name='contact-admin-list'),
     path('messages/<uuid:id>/', ContactMessageDetailView.as_view(), name='contact-detail'),
     path('messages/<uuid:id>/respond/', ContactRespondView.as_view(), name='contact-respond'),
 ]

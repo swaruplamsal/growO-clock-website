@@ -2,7 +2,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -12,20 +14,50 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { register } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
-    alert(
-      "Registration functionality will be implemented with backend integration.",
-    );
+    setLoading(true);
+    setError("");
+    try {
+      await register({
+        full_name: formData.name.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        password_confirm: formData.confirmPassword,
+      });
+      router.push("/dashboard");
+    } catch (err) {
+      const data = err.response?.data;
+      if (data) {
+        const messages = [];
+        for (const [key, val] of Object.entries(data)) {
+          if (Array.isArray(val)) messages.push(val.join(" "));
+          else if (typeof val === "string") messages.push(val);
+        }
+        setError(
+          messages.join(" ") || "Registration failed. Please try again.",
+        );
+      } else {
+        setError("Registration failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,6 +92,11 @@ export default function RegisterPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg font-montserrat text-sm">
+                  {error}
+                </div>
+              )}
               <div>
                 <label className="block font-montserrat text-sm font-medium text-gray-700 mb-1">
                   Full Name
@@ -156,9 +193,17 @@ export default function RegisterPage() {
               </div>
               <button
                 type="submit"
-                className="w-full px-8 py-3.5 bg-accent text-black font-montserrat font-semibold text-sm rounded-lg hover:bg-cyan-500 hover:text-white transition-colors duration-300 shadow-lg hover:shadow-xl"
+                disabled={loading}
+                className="w-full px-8 py-3.5 bg-accent text-black font-montserrat font-semibold text-sm rounded-lg hover:bg-cyan-500 hover:text-white transition-colors duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Account
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+                    Creating account...
+                  </span>
+                ) : (
+                  "Create Account"
+                )}
               </button>
             </form>
 

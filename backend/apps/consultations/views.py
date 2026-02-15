@@ -44,19 +44,6 @@ class ConsultationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff or user.role == 'ADMIN':
-            return Consultation.objects.all()
-        if user.role == 'ADVISOR':
-            return Consultation.objects.filter(
-                models__in=[
-                    Consultation.objects.filter(user=user),
-                    Consultation.objects.filter(advisor=user),
-                ]
-            ).distinct()
-        return Consultation.objects.filter(user=user)
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff or user.role == 'ADMIN':
             return Consultation.objects.all().select_related('user', 'advisor')
         if user.role == 'ADVISOR':
             from django.db.models import Q
