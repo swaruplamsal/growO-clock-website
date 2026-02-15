@@ -22,7 +22,7 @@ export default function CTA() {
           Ready to Grow Your <span className="text-primary">Wealth?</span>
         </h2>
         <p className="font-montserrat text-gray-600 text-base md:text-lg mb-10 max-w-2xl mx-auto">
-          Join hundreds of satisfied clients who trust grO&apos;Clock with their
+          Join hundreds of satisfied clients who trust grow O&apos;Clock with their
           financial future. Get started today with a free consultation.
         </p>
 

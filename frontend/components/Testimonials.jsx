@@ -5,19 +5,19 @@ const testimonials = [
   {
     name: "Rahul Sharma",
     role: "Business Owner",
-    text: "grO'Clock transformed how I manage my business finances. Their team is incredibly knowledgeable and always available.",
+    text: "grow O'Clock transformed how I manage my business finances. Their team is incredibly knowledgeable and always available.",
     rating: 5,
   },
   {
     name: "Priya Patel",
     role: "Investor",
-    text: "The investment strategies provided by grO'Clock have consistently exceeded my expectations. Highly recommended!",
+    text: "The investment strategies provided by grow O'Clock have consistently exceeded my expectations. Highly recommended!",
     rating: 5,
   },
   {
     name: "Amit Verma",
     role: "Startup Founder",
-    text: "From tax planning to growth strategy, grO'Clock has been an invaluable partner in our startup journey.",
+    text: "From tax planning to growth strategy, grow O'Clock has been an invaluable partner in our startup journey.",
     rating: 4,
   },
 ];

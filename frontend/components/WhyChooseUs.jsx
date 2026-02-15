@@ -42,7 +42,8 @@ export default function WhyChooseUs() {
             }`}
           >
             <h2 className="font-merriweather text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Why Choose <span className="text-primary">grO&apos;Clock?</span>
+              Why Choose{" "}
+              <span className="text-primary">grow O&apos;Clock?</span>
             </h2>
             <div className="w-16 h-1 bg-accent rounded-full mb-6"></div>
             <p className="font-montserrat text-gray-600 text-base md:text-lg leading-relaxed mb-8">

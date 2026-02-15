@@ -34,7 +34,7 @@ function AnimatedSection({ children, id, className = "" }) {
 
 const team = [
   {
-    name: "Swarup Lamsal",
+    name: "Milan Luitel",
     role: "CEO & Founder",
     bio: "Visionary leader with 15+ years in financial services, driving innovation and client-centric solutions.",
   },

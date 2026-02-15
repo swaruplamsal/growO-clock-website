@@ -6,7 +6,7 @@ import AboutContent from "./AboutContent";
 export const metadata = {
   title: "About Us - grO'Clock",
   description:
-    "Learn about grO'Clock, our mission, vision, team, and board of directors. We provide smart financial solutions for a secure future.",
+    "Learn about gro O'Clock, our mission, vision, team, and board of directors. We provide smart financial solutions for a secure future.",
 };
 
 export default function AboutPage() {
