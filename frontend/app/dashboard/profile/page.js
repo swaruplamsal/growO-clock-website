@@ -198,29 +198,34 @@ export default function ProfilePage() {
     "w-full px-4 py-2.5 border border-gray-200 rounded-lg font-montserrat text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors";
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <h1 className="font-merriweather text-2xl font-bold text-gray-900">
-        My Profile
-      </h1>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div>
+        <h1 className="font-merriweather text-2xl lg:text-3xl font-bold text-gray-900">
+          My Profile
+        </h1>
+        <p className="font-montserrat text-sm text-gray-500 mt-1">
+          Manage your personal information and preferences
+        </p>
+      </div>
 
       {/* Message */}
       {message && (
         <div
-          className={`px-4 py-3 rounded-lg font-montserrat text-sm ${message.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}
+          className={`px-4 py-3 rounded-lg font-montserrat text-sm shadow-sm animate-in fade-in slide-in-from-top-2 duration-300 ${message.type === "success" ? "bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200" : "bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200"}`}
         >
           {message.text}
         </div>
       )}
 
       {/* Avatar */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6 flex items-center gap-5">
+      <div className="bg-white rounded-xl border border-gray-100 p-6 flex items-center gap-6 shadow-md hover:shadow-lg transition-shadow">
         <div className="relative">
-          <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-2xl font-bold shadow-lg">
             {user?.profile?.avatar || user?.avatar ? (
               <img
                 src={user?.profile?.avatar || user?.avatar}
                 alt=""
-                className="w-20 h-20 rounded-full object-cover"
+                className="w-24 h-24 rounded-full object-cover"
               />
             ) : (
               user?.full_name?.[0] || "U"
@@ -228,10 +233,10 @@ export default function ProfilePage() {
           </div>
           <button
             onClick={() => avatarRef.current?.click()}
-            className="absolute -bottom-1 -right-1 bg-white border border-gray-200 rounded-full p-1.5 shadow hover:bg-gray-50"
+            className="absolute -bottom-1 -right-1 bg-white border-2 border-primary rounded-full p-2 shadow-lg hover:bg-primary hover:text-white transition-all duration-200"
           >
             <svg
-              className="w-3.5 h-3.5 text-gray-500"
+              className="w-4 h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -253,21 +258,23 @@ export default function ProfilePage() {
           />
         </div>
         <div>
-          <p className="font-montserrat font-semibold text-gray-900">
+          <p className="font-montserrat font-bold text-lg text-gray-900">
             {user?.full_name}
           </p>
-          <p className="font-montserrat text-sm text-gray-500">{user?.email}</p>
+          <p className="font-montserrat text-sm text-gray-500 mt-1">
+            {user?.email}
+          </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-md">
         <div className="flex border-b border-gray-100">
           {tabs.map((tab, i) => (
             <button
               key={tab}
               onClick={() => setActiveTab(i)}
-              className={`flex-1 px-4 py-3 font-montserrat text-sm font-medium transition-colors ${activeTab === i ? "text-primary border-b-2 border-primary bg-primary/5" : "text-gray-500 hover:text-gray-700"}`}
+              className={`flex-1 px-4 py-3.5 font-montserrat text-sm font-semibold transition-all duration-200 ${activeTab === i ? "text-primary border-b-2 border-primary bg-gradient-to-t from-primary/5 to-transparent" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"}`}
             >
               {tab}
             </button>
@@ -416,7 +423,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-primary text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50"
+                className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
@@ -450,13 +457,13 @@ export default function ProfilePage() {
               ].map((pref) => (
                 <div
                   key={pref.key}
-                  className="flex items-center justify-between"
+                  className="flex items-center justify-between p-4 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <div>
-                    <p className="font-montserrat text-sm font-medium text-gray-900">
+                    <p className="font-montserrat text-sm font-semibold text-gray-900">
                       {pref.label}
                     </p>
-                    <p className="font-montserrat text-xs text-gray-500">
+                    <p className="font-montserrat text-xs text-gray-500 mt-0.5">
                       {pref.desc}
                     </p>
                   </div>
@@ -468,10 +475,10 @@ export default function ProfilePage() {
                         [pref.key]: !preferences[pref.key],
                       })
                     }
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${preferences[pref.key] ? "bg-primary" : "bg-gray-200"}`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-200 ${preferences[pref.key] ? "bg-gradient-to-r from-primary to-primary-dark" : "bg-gray-200"}`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${preferences[pref.key] ? "translate-x-6" : "translate-x-1"}`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${preferences[pref.key] ? "translate-x-6" : "translate-x-1"}`}
                     />
                   </button>
                 </div>
@@ -479,7 +486,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-primary text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50"
+                className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Saving..." : "Save Preferences"}
               </button>
@@ -542,7 +549,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-primary text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50"
+                className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Changing..." : "Change Password"}
               </button>

@@ -93,9 +93,9 @@ export default function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="font-merriweather text-2xl font-bold text-gray-900">
+          <h1 className="font-merriweather text-2xl lg:text-3xl font-bold text-gray-900">
             Notifications
           </h1>
           {unreadCount > 0 && (
@@ -107,7 +107,7 @@ export default function NotificationsPage() {
         {unreadCount > 0 && (
           <button
             onClick={handleMarkAllRead}
-            className="font-montserrat text-sm text-primary hover:underline"
+            className="font-montserrat text-sm font-medium text-primary hover:text-primary-dark transition-colors px-4 py-2 rounded-lg hover:bg-primary/5"
           >
             Mark all as read
           </button>
@@ -116,29 +116,33 @@ export default function NotificationsPage() {
 
       {message && (
         <div
-          className={`px-4 py-3 rounded-lg font-montserrat text-sm ${message.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}
+          className={`px-4 py-3 rounded-lg font-montserrat text-sm shadow-sm animate-in fade-in slide-in-from-top-2 duration-300 ${message.type === "success" ? "bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200" : "bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200"}`}
         >
           {message.text}
         </div>
       )}
 
       {notifications.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-10 text-center">
-          <svg
-            className="w-12 h-12 mx-auto text-gray-300 mb-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1}
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-          <p className="font-montserrat text-gray-500">No notifications yet.</p>
-          <p className="font-montserrat text-sm text-gray-400 mt-1">
+        <div className="bg-white rounded-xl border border-gray-100 p-12 text-center shadow-sm">
+          <div className="w-16 h-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </div>
+          <p className="font-montserrat font-semibold text-gray-700">
+            No notifications yet.
+          </p>
+          <p className="font-montserrat text-sm text-gray-500 mt-1">
             You&apos;ll be notified about important updates here.
           </p>
         </div>
@@ -147,12 +151,12 @@ export default function NotificationsPage() {
           {notifications.map((n) => (
             <div
               key={n.id}
-              className={`bg-white rounded-xl border transition-all ${n.is_read ? "border-gray-100" : "border-primary/20 bg-primary/[0.02]"}`}
+              className={`bg-white rounded-xl border transition-all duration-200 hover:shadow-md ${n.is_read ? "border-gray-100" : "border-primary/30 bg-gradient-to-r from-primary/[0.03] to-transparent shadow-sm"}`}
             >
               <div className="px-5 py-4 flex items-start gap-4">
                 {/* Icon */}
                 <div
-                  className={`p-2 rounded-lg flex-shrink-0 ${n.is_read ? "bg-gray-100" : "bg-primary/10"}`}
+                  className={`p-2.5 rounded-lg flex-shrink-0 shadow-sm ${n.is_read ? "bg-gray-100" : "bg-gradient-to-br from-primary/10 to-secondary/10"}`}
                 >
                   <svg
                     className={`w-5 h-5 ${n.is_read ? "text-gray-400" : typeIcons[n.notification_type] || "text-primary"}`}
@@ -172,16 +176,16 @@ export default function NotificationsPage() {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <p
-                    className={`font-montserrat text-sm ${n.is_read ? "text-gray-600" : "text-gray-900 font-medium"}`}
+                    className={`font-montserrat text-sm ${n.is_read ? "text-gray-600" : "text-gray-900 font-semibold"}`}
                   >
                     {n.title || n.message}
                   </p>
                   {n.title && n.message && n.message !== n.title && (
-                    <p className="font-montserrat text-xs text-gray-500 mt-0.5">
+                    <p className="font-montserrat text-xs text-gray-500 mt-1">
                       {n.message}
                     </p>
                   )}
-                  <p className="font-montserrat text-xs text-gray-400 mt-1">
+                  <p className="font-montserrat text-xs text-gray-400 mt-1.5">
                     {timeAgo(n.created_at)}
                   </p>
                 </div>
@@ -191,7 +195,7 @@ export default function NotificationsPage() {
                   {!n.is_read && (
                     <button
                       onClick={() => handleMarkRead(n.id)}
-                      className="p-1.5 text-gray-400 hover:text-primary transition-colors"
+                      className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary/10 rounded transition-all duration-200"
                       title="Mark as read"
                     >
                       <svg
@@ -211,7 +215,7 @@ export default function NotificationsPage() {
                   )}
                   <button
                     onClick={() => handleDelete(n.id)}
-                    className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
+                    className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-all duration-200"
                     title="Delete"
                   >
                     <svg

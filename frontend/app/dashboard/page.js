@@ -180,11 +180,11 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Greeting */}
-      <div>
-        <h1 className="font-merriweather text-2xl lg:text-3xl font-bold text-gray-900">
+      <div className="bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl p-6 lg:p-8 shadow-lg">
+        <h1 className="font-merriweather text-2xl lg:text-3xl font-bold">
           {greeting()}, {user?.full_name?.split(" ")[0] || "there"}!
         </h1>
-        <p className="font-montserrat text-gray-500 mt-1">
+        <p className="font-montserrat text-blue-100 mt-2">
           Here&apos;s an overview of your financial dashboard.
         </p>
       </div>
@@ -195,14 +195,16 @@ export default function DashboardPage() {
           <Link
             key={card.key}
             href={card.href}
-            className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-lg transition-shadow group"
+            className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
           >
             <div className="flex items-center justify-between mb-3">
-              <div className={`${card.color} p-3 rounded-lg text-white`}>
+              <div
+                className={`${card.color} p-3 rounded-lg text-white shadow-md group-hover:shadow-lg transition-shadow`}
+              >
                 {card.icon}
               </div>
               <svg
-                className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors"
+                className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -215,7 +217,7 @@ export default function DashboardPage() {
                 />
               </svg>
             </div>
-            <p className="font-montserrat text-2xl font-bold text-gray-900">
+            <p className="font-montserrat text-3xl font-bold text-gray-900 mb-1">
               {stats[card.key]}
             </p>
             <p className="font-montserrat text-sm text-gray-500">
@@ -227,9 +229,9 @@ export default function DashboardPage() {
 
       {/* Unread Notifications */}
       {stats.notifications > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="bg-amber-100 p-2 rounded-lg">
+            <div className="bg-amber-100 p-2 rounded-lg shadow-sm">
               <svg
                 className="w-5 h-5 text-amber-600"
                 fill="none"
@@ -251,7 +253,7 @@ export default function DashboardPage() {
           </div>
           <Link
             href="/dashboard/notifications"
-            className="font-montserrat text-sm text-amber-700 underline hover:text-amber-900"
+            className="font-montserrat text-sm font-medium text-amber-700 hover:text-amber-900 transition-colors px-3 py-1.5 rounded-lg hover:bg-amber-100"
           >
             View All
           </Link>
@@ -259,27 +261,55 @@ export default function DashboardPage() {
       )}
 
       {/* Recent Consultations */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
           <h2 className="font-merriweather text-lg font-bold text-gray-900">
             Recent Consultations
           </h2>
           <Link
             href="/dashboard/consultations"
-            className="font-montserrat text-sm text-primary hover:underline"
+            className="font-montserrat text-sm text-primary hover:text-primary-dark font-medium transition-colors"
           >
-            View All
+            View All →
           </Link>
         </div>
         {recentConsultations.length === 0 ? (
-          <div className="px-6 py-10 text-center">
-            <p className="font-montserrat text-gray-500 mb-3">
+          <div className="px-6 py-12 text-center bg-gradient-to-b from-gray-50 to-white">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <p className="font-montserrat text-gray-500 mb-4">
               No consultations yet.
             </p>
             <Link
               href="/dashboard/consultations"
-              className="font-montserrat text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
+              className="inline-flex items-center gap-2 font-montserrat text-sm bg-gradient-to-r from-primary to-primary-dark text-white px-5 py-2.5 rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
             >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
               Book a Consultation
             </Link>
           </div>
@@ -288,22 +318,22 @@ export default function DashboardPage() {
             {recentConsultations.map((c) => (
               <div
                 key={c.id}
-                className="px-6 py-3 flex items-center justify-between hover:bg-gray-50"
+                className="px-6 py-4 flex items-center justify-between hover:bg-gradient-to-r hover:from-gray-50 hover:to-transparent transition-all duration-200"
               >
                 <div>
-                  <p className="font-montserrat text-sm font-medium text-gray-900">
+                  <p className="font-montserrat text-sm font-semibold text-gray-900">
                     {c.consultation_type_display ||
                       c.consultation_type ||
                       "Consultation"}
                   </p>
-                  <p className="font-montserrat text-xs text-gray-500">
+                  <p className="font-montserrat text-xs text-gray-500 mt-0.5">
                     {c.scheduled_date
                       ? new Date(c.scheduled_date).toLocaleDateString()
                       : "—"}
                   </p>
                 </div>
                 <span
-                  className={`font-montserrat text-xs px-2.5 py-1 rounded-full font-medium ${
+                  className={`font-montserrat text-xs px-3 py-1.5 rounded-full font-medium shadow-sm ${
                     c.status === "SCHEDULED"
                       ? "bg-green-100 text-green-700"
                       : c.status === "PENDING"
@@ -334,27 +364,75 @@ export default function DashboardPage() {
               label: "Book Consultation",
               href: "/dashboard/consultations",
               desc: "Schedule a meeting with an advisor",
+              icon: (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              ),
             },
             {
               label: "Create Financial Plan",
               href: "/dashboard/financial-plans",
               desc: "Start planning your finances",
+              icon: (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+              ),
             },
             {
               label: "Upload Document",
               href: "/dashboard/documents",
               desc: "Securely store your documents",
+              icon: (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                  />
+                </svg>
+              ),
             },
           ].map((action) => (
             <Link
               key={action.href}
               href={action.href}
-              className="bg-white rounded-xl border border-gray-100 p-5 hover:border-primary/30 hover:shadow-md transition-all group"
+              className="bg-white rounded-xl border border-gray-100 p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300 group hover:-translate-y-1"
             >
-              <p className="font-montserrat text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:from-primary group-hover:to-secondary group-hover:text-white transition-all duration-300 shadow-sm">
+                {action.icon}
+              </div>
+              <p className="font-montserrat text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors mb-1">
                 {action.label}
               </p>
-              <p className="font-montserrat text-xs text-gray-500 mt-1">
+              <p className="font-montserrat text-xs text-gray-500">
                 {action.desc}
               </p>
             </Link>

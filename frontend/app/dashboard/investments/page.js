@@ -172,16 +172,21 @@ export default function InvestmentsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-merriweather text-2xl font-bold text-gray-900">
-          Investment Portfolios
-        </h1>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="font-merriweather text-2xl lg:text-3xl font-bold text-gray-900">
+            Investment Portfolios
+          </h1>
+          <p className="font-montserrat text-sm text-gray-500 mt-1">
+            Manage and track your investment portfolios
+          </p>
+        </div>
         <button
           onClick={() => {
             setShowForm(!showForm);
             setSelected(null);
           }}
-          className="bg-primary text-white px-4 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:bg-primary-dark transition-colors flex items-center gap-2"
+          className="bg-gradient-to-r from-primary to-primary-dark text-white px-5 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 flex items-center gap-2"
         >
           <svg
             className="w-4 h-4"
@@ -202,7 +207,7 @@ export default function InvestmentsPage() {
 
       {message && (
         <div
-          className={`px-4 py-3 rounded-lg font-montserrat text-sm ${message.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}
+          className={`px-4 py-3 rounded-lg font-montserrat text-sm shadow-sm animate-in fade-in slide-in-from-top-2 duration-300 ${message.type === "success" ? "bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200" : "bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200"}`}
         >
           {message.text}
         </div>
@@ -210,8 +215,23 @@ export default function InvestmentsPage() {
 
       {/* Create */}
       {showForm && (
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h2 className="font-merriweather text-lg font-bold text-gray-900 mb-4">
+        <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-md hover:shadow-lg transition-shadow">
+          <h2 className="font-merriweather text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </div>
             Create Portfolio
           </h2>
           <form onSubmit={handleCreate} className="space-y-4">
@@ -280,14 +300,14 @@ export default function InvestmentsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-primary text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:bg-primary-dark disabled:opacity-50"
+                className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-2.5 rounded-lg font-montserrat text-sm font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Creating..." : "Create Portfolio"}
               </button>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-6 py-2.5 border border-gray-200 rounded-lg font-montserrat text-sm text-gray-600 hover:bg-gray-50"
+                className="px-6 py-2.5 border border-gray-200 rounded-lg font-montserrat text-sm text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200"
               >
                 Cancel
               </button>
@@ -298,21 +318,23 @@ export default function InvestmentsPage() {
 
       {/* List */}
       {portfolios.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-10 text-center">
-          <svg
-            className="w-12 h-12 mx-auto text-gray-300 mb-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1}
-              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-            />
-          </svg>
-          <p className="font-montserrat text-gray-500">
+        <div className="bg-white rounded-xl border border-gray-100 p-12 text-center shadow-sm">
+          <div className="w-16 h-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+          </div>
+          <p className="font-montserrat font-semibold text-gray-700">
             No portfolios yet. Create one to start tracking investments.
           </p>
         </div>
@@ -321,7 +343,7 @@ export default function InvestmentsPage() {
           {portfolios.map((p) => (
             <div
               key={p.id}
-              className={`bg-white rounded-xl border transition-all ${selected?.id === p.id ? "border-primary shadow-md" : "border-gray-100 hover:border-gray-200"}`}
+              className={`bg-white rounded-xl border transition-all duration-200 ${selected?.id === p.id ? "border-primary shadow-lg scale-[1.01]" : "border-gray-100 hover:border-gray-200 hover:shadow-md"}`}
             >
               <div
                 onClick={() => handleSelect(p)}
