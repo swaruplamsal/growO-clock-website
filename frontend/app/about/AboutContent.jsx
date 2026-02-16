@@ -34,8 +34,8 @@ function AnimatedSection({ children, id, className = "" }) {
 
 const team = [
   {
-    name: "Milan Luitel",
-    role: "CEO & Founder",
+    name: "Shankar Neupane",
+    role: "Managing Director & Founder",
     bio: "Visionary leader with 15+ years in financial services, driving innovation and client-centric solutions.",
   },
   {
@@ -102,8 +102,8 @@ export default function AboutContent() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="font-montserrat text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-                  Founded in 2014, grO&apos;Clock began with a simple vision: to
-                  make expert financial guidance accessible to everyone. What
+                  Founded in 2022, grow O&apos;Clock began with a simple vision:
+                  to make expert financial guidance accessible to everyone. What
                   started as a small consulting firm has grown into a trusted
                   name in financial services across Nepal.
                 </p>
@@ -114,16 +114,16 @@ export default function AboutContent() {
                   to our clients&apos; success.
                 </p>
                 <p className="font-montserrat text-gray-600 text-base md:text-lg leading-relaxed">
-                  Today, with over ₹50 Crore in assets under management and a
+                  Today, with over Rs 10 Crore in assets under management and a
                   98% client retention rate, we continue to innovate and expand
                   our services to meet the evolving needs of our clients.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { value: "2014", label: "Founded" },
-                  { value: "500+", label: "Clients Served" },
-                  { value: "₹50Cr+", label: "Assets Managed" },
+                  { value: "2022", label: "Founded" },
+                  { value: "100+", label: "Clients Served" },
+                  { value: "Rs 10Cr+", label: "Assets Managed" },
                   { value: "98%", label: "Retention Rate" },
                 ].map((stat) => (
                   <div
