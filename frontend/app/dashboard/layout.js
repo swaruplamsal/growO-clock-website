@@ -141,6 +141,26 @@ const sidebarLinks = [
       </svg>
     ),
   },
+  {
+    label: "Blog Management",
+    href: "/dashboard/blog",
+    icon: (
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+        />
+      </svg>
+    ),
+    roleRequired: ["ADMIN", "ADVISOR"],
+  },
 ];
 
 export default function DashboardLayout({ children }) {
@@ -196,29 +216,35 @@ export default function DashboardLayout({ children }) {
 
             {/* Nav Links */}
             <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-              {sidebarLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-montserrat text-sm font-medium transition-all duration-200 ${
-                      isActive
-                        ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-md"
-                        : "text-gray-600 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary"
-                    }`}
-                  >
-                    {link.icon}
-                    {link.label}
-                    {link.label === "Notifications" && unreadCount > 0 && (
-                      <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 animate-pulse">
-                        {unreadCount}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })}
+              {sidebarLinks
+                .filter(
+                  (link) =>
+                    !link.roleRequired ||
+                    link.roleRequired.includes(user?.role),
+                )
+                .map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-montserrat text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-md"
+                          : "text-gray-600 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary"
+                      }`}
+                    >
+                      {link.icon}
+                      {link.label}
+                      {link.label === "Notifications" && unreadCount > 0 && (
+                        <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 animate-pulse">
+                          {unreadCount}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
             </nav>
 
             {/* User Card */}
