@@ -30,7 +30,12 @@ Main pages:
 - /login
 - /register
 - /careers
-- /blog
+- /blog (Public blog listing)
+- /blog/[slug] (Individual blog posts)
+- /dashboard (Protected - User dashboard)
+- /dashboard/blog (Protected - Blog management for admins/advisors)
+- /dashboard/blog/new (Protected - Create new blog post)
+- /dashboard/blog/edit/[slug] (Protected - Edit blog post)
 - /press
 - /privacy
 - /terms
@@ -62,6 +67,9 @@ Section anchors (used by navbar dropdowns and footer links):
 - Smooth scrolling for same-page anchors
 - Responsive layout and reusable components
 - Animated section reveals using Intersection Observer
+- **Blog Management Dashboard** - Full CRUD interface for admins and advisors to create, edit, and publish blog posts
+- User authentication with role-based access (USER, ADVISOR, ADMIN)
+- Public blog listing and detailed post pages with categories and tags
 
 ## Components
 
@@ -94,7 +102,24 @@ npm run build
 npm run start
 ```
 
+## Blog Management
+
+Admins and advisors can manage blog posts through the dashboard:
+
+1. **Login as Admin/Advisor** - See backend README for creating admin accounts
+2. **Navigate to Dashboard** - Click "Blog Management" in the sidebar
+3. **Create Posts** - Full editor with title, excerpt, content, categories, tags, and status
+4. **Edit/Delete** - Manage existing posts with view tracking
+5. **Publish** - Set status to PUBLISHED and optionally schedule publish date
+
+### User Roles:
+
+- **USER**: Regular clients (default)
+- **ADVISOR**: Can create and manage blog posts
+- **ADMIN**: Full access including Django admin panel
+
 ## Notes
 
 - Social links in the footer are placeholders and can be replaced with real URLs.
-- Forms currently show local alerts and are ready for backend integration.
+- Backend integration is complete for blog, authentication, and dashboard features.
+- Create a superuser account using `python manage.py createsuperuser` to access blog management.

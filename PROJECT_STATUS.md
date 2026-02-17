@@ -75,6 +75,8 @@ python manage.py runserver    # Start server at http://127.0.0.1:8000
 - ✅ **Financial Calculators** - Compound interest, retirement, loan, tax
 - ✅ **Real-time Notifications** - WebSocket support
 - ✅ **Email System** - Templates ready
+- ✅ **Blog Management Dashboard** - Full CRUD interface with rich editor
+- ✅ **Role-Based Access** - USER, ADVISOR, ADMIN roles
 - ✅ **Admin Panel** - http://127.0.0.1:8000/admin/
 - ✅ **API Documentation** - http://127.0.0.1:8000/api/docs/
 - ✅ **Database** - Fresh SQLite with all tables
@@ -100,13 +102,38 @@ python manage.py createsuperuser
 # Then visit http://127.0.0.1:8000/admin/
 ```
 
-### 3. Test API
+### 3. Access Blog Management
+
+The blog management dashboard is available for admins and advisors:
+
+1. **Create an admin account:**
+
+   ```bash
+   python manage.py createsuperuser
+   # Enter: email, full name, password
+   ```
+
+2. **Login to the website:**
+   - Go to http://localhost:3000/login
+   - Enter your admin credentials
+   - Navigate to Dashboard → Blog Management
+
+3. **Features:**
+   - Create new blog posts with rich content
+   - Edit and delete existing posts
+   - Organize by categories and tags
+   - Set status: Draft, Published, or Archived
+   - Schedule publish dates
+   - Track post views
+   - Mark posts as featured
+
+### 4. Test API
 
 - Open http://127.0.0.1:8000/api/docs/
 - Explore all endpoints in Swagger UI
-- Test authentication, calculators, etc.
+- Test authentication, calculators, blog endpoints, etc.
 
-### 4. Connect Frontend
+### 5. Connect Frontend
 
 ```bash
 cd frontend
@@ -123,17 +150,23 @@ npm install axios
 
 ## 📚 Key API Endpoints
 
-| Feature           | Endpoint                               | Auth Required |
-| ----------------- | -------------------------------------- | ------------- |
-| Register          | `POST /auth/register/`                 | No            |
-| Login             | `POST /auth/login/`                    | No            |
-| User Profile      | `GET /users/me/`                       | Yes           |
-| Blog Posts        | `GET /blog/posts/`                     | No            |
-| Contact Form      | `POST /contact/submit/`                | No            |
-| Book Consultation | `POST /consultations/`                 | Yes           |
-| Compound Interest | `POST /calculators/compound-interest/` | No            |
-| Retirement Calc   | `POST /calculators/retirement/`        | No            |
-| Job Positions     | `GET /careers/positions/`              | No            |
+| Feature                | Endpoint                               | Auth Required       |
+| ---------------------- | -------------------------------------- | ------------------- |
+| Register               | `POST /auth/register/`                 | No                  |
+| Login                  | `POST /auth/login/`                    | No                  |
+| User Profile           | `GET /users/me/`                       | Yes                 |
+| **Blog Posts (List)**  | `GET /blog/posts/`                     | No                  |
+| **Blog Post (View)**   | `GET /blog/posts/{slug}/`              | No                  |
+| **Blog Post (Create)** | `POST /blog/posts/`                    | Yes (Admin/Advisor) |
+| **Blog Post (Update)** | `PATCH /blog/posts/{slug}/`            | Yes (Admin/Advisor) |
+| **Blog Post (Delete)** | `DELETE /blog/posts/{slug}/`           | Yes (Admin/Advisor) |
+| Blog Categories        | `GET /blog/categories/`                | No                  |
+| Blog Tags              | `GET /blog/tags/`                      | No                  |
+| Contact Form           | `POST /contact/submit/`                | No                  |
+| Book Consultation      | `POST /consultations/`                 | Yes                 |
+| Compound Interest      | `POST /calculators/compound-interest/` | No                  |
+| Retirement Calc        | `POST /calculators/retirement/`        | No                  |
+| Job Positions          | `GET /careers/positions/`              | No                  |
 
 **Full Documentation:** http://127.0.0.1:8000/api/docs/
 
