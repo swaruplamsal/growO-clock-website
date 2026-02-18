@@ -1,6 +1,6 @@
 # grow O'Clock Website
 
-Modern marketing website for grow O'Clock built with Next.js (App Router) and Tailwind CSS. The project includes a full landing page plus all linked pages, consistent layout styling, and section-based navigation with smooth scrolling.
+Modern marketing website for grow O'Clock built with Next.js (App Router) and Tailwind CSS. The project includes a full landing page plus all linked pages, consistent layout styling, and section-based navigation with smooth scrolling with integrated Dark Mode.
 
 ## Tech Stack
 
@@ -70,6 +70,7 @@ Section anchors (used by navbar dropdowns and footer links):
 - **Blog Management Dashboard** - Full CRUD interface for admins and advisors to create, edit, and publish blog posts
 - User authentication with role-based access (USER, ADVISOR, ADMIN)
 - Public blog listing and detailed post pages with categories and tags
+- Integrated Dark Mode
 
 ## Components
 
