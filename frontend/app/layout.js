@@ -1,5 +1,5 @@
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
+import Providers from "@/components/Providers";
 
 export const metadata = {
   title: "grO'Clock - Smart Financial Solutions for a Secure Future",
@@ -11,9 +11,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
